@@ -13,7 +13,7 @@ Short URL is a simple URL shortening service built using Flask and Redis. It all
 ## 🛠 Installation
 ### **1. Pull the Repository**
 ```sh
-git clone https://github.com/yourusername/shorturl.git
+git clone https://github.com/pjc9845x/ShortURL
 cd shorturl
 ```
 
