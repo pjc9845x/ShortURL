@@ -55,7 +55,7 @@ while True:
     print("\n")
     if choice=='1':
         shortenedURL=shortenURL()
-        print(shortenedURL)
+        print(f"New shortened URL: {shortenedURL}\n")
     elif choice=='2':
         if 'shortenedURL' in locals() and shortenedURL:
             getOriginalURL(shortenedURL)
