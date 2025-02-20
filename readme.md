@@ -8,6 +8,7 @@ Short URL is a simple URL shortening service built using Flask and Redis. It all
 - Track the number of visits for each shortened URL
 - Built using Flask and Redis
 - Fully containerized with Docker and Docker Compose
+- Can be converted into an executable using PyInstaller
 
 ## 🛠 Installation
 ### **1. Clone the Repository**
@@ -16,14 +17,17 @@ git clone https://github.com/yourusername/shorturl.git
 cd shorturl
 ```
 
-### **2. Install Dependencies (Without Docker)**
-Ensure you have Python 3.9+ installed, then install dependencies:
+### **2. Pull and Install Dependencies**
+If using Docker, ensure you have Docker installed and pull the latest Redis image:
+```sh
+docker pull redis:latest
+```
+If running locally, install dependencies:
 ```sh
 pip install -r requirements.txt
 ```
 
 ### **3. Run Redis (via Docker)**
-If you don’t have Redis installed, you can run it using Docker:
 ```sh
 docker run -d --name myredis -p 6379:6379 redis
 ```
@@ -32,7 +36,8 @@ If you're using **Windows**, update `shorturl.py` to use:
 redisClient = rd.StrictRedis(host='host.docker.internal', port=6379, db=0, decode_responses=True)
 ```
 
-### **4. Run the Flask App (Without Docker)**
+### **4. Running the Application**
+#### **Run the Flask App (Without Docker)**
 ```sh
 python shorturl.py
 ```
@@ -91,7 +96,7 @@ volumes:
     driver: local
 ```
 
-### **3. Build and Run Everything**
+### **3. Build and Run the Container**
 ```sh
 docker-compose up --build -d
 ```
@@ -112,6 +117,29 @@ It should return:
 PONG
 ```
 
+## 🐍 Running as an Executable with PyInstaller
+If you want to create a standalone executable of the application using **PyInstaller**, follow these steps:
+
+### **1. Install PyInstaller**
+```sh
+pip install pyinstaller
+```
+
+### **2. Build the Executable**
+Run the following command to create a standalone executable:
+```sh
+pyinstaller --onefile --name shorturl_app shorturl.py
+```
+
+### **3. Run the Executable**
+After the build is complete, navigate to the `dist` folder and run the executable:
+```sh
+cd dist
+./shorturl_app  # On macOS/Linux
+shorturl_app.exe  # On Windows
+```
+The app should now run without needing Python.
+
 ## 🧪 Testing with Postman or Curl
 ### **Shorten a URL**
 ```sh
@@ -123,8 +151,6 @@ Response:
     "url": "http://localhost:8000/abc123"
 }
 ```
-Running the shorturl app
-
 
 ### **Access a Shortened URL**
 ```sh
@@ -165,4 +191,4 @@ This project is licensed under the MIT License.
 
 ---
 
-
+Happy coding! 🚀
