@@ -123,6 +123,8 @@ Response:
     "url": "http://localhost:8000/abc123"
 }
 ```
+Running the shorturl app
+
 
 ### **Access a Shortened URL**
 ```sh

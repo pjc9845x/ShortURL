@@ -9,7 +9,7 @@ import requests as rq
 
 app=fs.Flask(__name__)
 
-redisClient=rd.StrictRedis(host='redis', port=6379, db=0,decode_responses=True) # Connect to Redis
+redisClient=rd.StrictRedis(host='host.docker.internal', port=6379, db=0,decode_responses=True) # Connect to Redis
 
 
 class URLRequest (pd.BaseModel):
