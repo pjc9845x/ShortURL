@@ -22,21 +22,21 @@ def getOriginalURL(shortCode):
     try:
         response = requests.get(f"http://localhost:8000/{shortCode}", timeout=5)
         response.raise_for_status()
-        print(f"Redirecting to: {response.url}")
+        return response.url
     except requests.exceptions.RequestException as e:
         print("Error: Unable to retrieve the original URL. Make sure Docker is running.")
         print(f"Details: {e}")
-
+        return None
 def getURLStats(shortCode):
     try:
         response = requests.get(f"http://localhost:8000/status/{shortCode}", timeout=5)
         response.raise_for_status()
         data = response.json()
-        print(f"Short Code: {data['Short code']}")
-        print(f"Visits: {data['Visits']}")
+        return data['Visits']
     except requests.exceptions.RequestException as e:
         print("Error connecting to server! Is Docker on?")
         print({e})
+        return None
 
 
 
@@ -58,12 +58,14 @@ while True:
         print(f"New shortened URL: {shortenedURL}\n")
     elif choice=='2':
         if 'shortenedURL' in locals() and shortenedURL:
-            getOriginalURL(shortenedURL)
+            originalURL=getOriginalURL(shortenedURL)
+            print(f"Original URL: {originalURL}\n")
         else:
             print("No shortened URL found!")
     elif choice=='3':
         if 'shortenedURL' in locals() and shortenedURL:
-            getURLStats(shortenedURL)
+            numberOfVisitors=getURLStats(shortenedURL)
+            print(f"Number of visitors: {numberOfVisitors}\n")
         else:
             print("No shortened URL found!")
     elif choice=='4':
