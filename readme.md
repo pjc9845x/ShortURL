@@ -10,37 +10,35 @@ Short URL is a simple URL shortening service built using Flask and Redis. It all
 - Fully containerized with Docker and Docker Compose
 - Can be converted into an executable using PyInstaller
 
-## 🛠 Pulling and Installing
-### **1. Clone the Repository**
+## 🛠 Installation
+### **1. Pull the Repository**
 ```sh
 git clone https://github.com/yourusername/shorturl.git
 cd shorturl
 ```
 
-### **2. Install Dependencies (Without Docker)**
+## **2. Installing Dependencies**
+
+### **For Those Who Have Python Installed**
 Ensure you have Python 3.9+ installed, then install dependencies:
 ```sh
 pip install -r requirements.txt
 ```
 
-### **3. Run Redis (via Docker)**
-If you don’t have Redis installed, you can run it using Docker:
-```sh
-docker run -d --name myredis -p 6379:6379 redis
-```
-If you're using **Windows**, update `shorturl.py` to use:
-```python
-redisClient = rd.StrictRedis(host='host.docker.internal', port=6379, db=0, decode_responses=True)
-```
+### **For Those Who Do Not Have Python Installed (Run the Executable)**
+If you don’t have Python, you can run the pre-built executable:
+1. Download the latest `shorturl_app.exe` (Windows) or `shorturl_app` (Linux/macOS) from the **Releases** section in the repository.
+2. Move the file to your preferred directory.
+3. Run the executable:
+   ```sh
+   ./shorturl_app  # On macOS/Linux
+   shorturl_app.exe  # On Windows
+   ```
 
-### **4. Running the Flask App (Without Docker)**
-```sh
-python shorturl.py
-```
-The app will be running at **http://localhost:8000**.
+## 🐳 Running the Application with Docker
 
-## 🐳 Running the Container
-### **1. Build and Run Using Docker Compose**
+### **1. Build and Run the Container**
+If you don’t have Redis installed, you can run everything with Docker:
 ```sh
 docker-compose up --build -d
 ```
@@ -61,38 +59,35 @@ It should return:
 PONG
 ```
 
-### **3. Stopping and Removing Containers**
-To stop all containers:
+## 🎯 Running the Program
+### **For Python Users**
 ```sh
-docker-compose down
+python shorturl.py
 ```
-To remove all Redis data:
-```sh
-docker volume rm redis_data
-```
+The app will be running at **http://localhost:8000**.
 
-## 🐍 Running as an Executable with PyInstaller
-If you want to create a standalone executable of the application using **PyInstaller**, follow these steps:
+### **For Non-Python Users (Run the Executable)**
+1. Navigate to the directory containing `shorturl_app`.
+2. Run:
+   ```sh
+   ./shorturl_app  # On macOS/Linux
+   shorturl_app.exe  # On Windows
+   ```
 
-### **1. Install PyInstaller**
-```sh
-pip install pyinstaller
-```
+## 🖥️ How to Operate the Program
+After launching the program, you will be prompted with options:
 
-### **2. Build the Executable**
-Run the following command to create a standalone executable:
-```sh
-pyinstaller --onefile --name shorturl_app shorturl.py
-```
+1️⃣ **Shorten a URL**
+   - Enter the URL to shorten, and receive a short URL.
 
-### **3. Run the Executable**
-After the build is complete, navigate to the `dist` folder and run the executable:
-```sh
-cd dist
-./shorturl_app  # On macOS/Linux
-shorturl_app.exe  # On Windows
-```
-The app should now run without needing Python.
+2️⃣ **Retrieve the Original URL**
+   - Use the short code to retrieve the original URL.
+
+3️⃣ **Check URL Statistics**
+   - View the visit count for a given short URL.
+
+4️⃣ **Exit the Program**
+   - Exit the interactive client.
 
 ## 🧪 Testing with Postman or Curl
 ### **Shorten a URL**
@@ -123,16 +118,15 @@ Response:
 }
 ```
 
-## 🤝 Contributing
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-branch`)
-3. Commit your changes (`git commit -m "Add new feature"`)
-4. Push to your branch (`git push origin feature-branch`)
-5. Open a Pull Request
+## 🛑 Stopping and Removing Containers
+To stop all containers:
+```sh
+docker-compose down
+```
+To remove all Redis data:
+```sh
+docker volume rm redis_data
+```
 
-## 📜 License
-This project is licensed under the MIT License.
 
 ---
-
-Happy coding! 🚀
