@@ -10,24 +10,21 @@ Short URL is a simple URL shortening service built using Flask and Redis. It all
 - Fully containerized with Docker and Docker Compose
 - Can be converted into an executable using PyInstaller
 
-## 🛠 Installation
+## 🛠 Pulling and Installing
 ### **1. Clone the Repository**
 ```sh
 git clone https://github.com/yourusername/shorturl.git
 cd shorturl
 ```
 
-### **2. Pull and Install Dependencies**
-If using Docker, ensure you have Docker installed and pull the latest Redis image:
-```sh
-docker pull redis:latest
-```
-If running locally, install dependencies:
+### **2. Install Dependencies (Without Docker)**
+Ensure you have Python 3.9+ installed, then install dependencies:
 ```sh
 pip install -r requirements.txt
 ```
 
 ### **3. Run Redis (via Docker)**
+If you don’t have Redis installed, you can run it using Docker:
 ```sh
 docker run -d --name myredis -p 6379:6379 redis
 ```
@@ -36,73 +33,20 @@ If you're using **Windows**, update `shorturl.py` to use:
 redisClient = rd.StrictRedis(host='host.docker.internal', port=6379, db=0, decode_responses=True)
 ```
 
-### **4. Running the Application**
-#### **Run the Flask App (Without Docker)**
+### **4. Running the Flask App (Without Docker)**
 ```sh
 python shorturl.py
 ```
 The app will be running at **http://localhost:8000**.
 
-## 🐳 Running Everything with Docker
-### **1. Create a `Dockerfile`**
-```dockerfile
-# Use an official Python runtime as a base image
-FROM python:3.9
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the current directory contents into the container
-COPY . /app
-
-# Install dependencies
-RUN pip install --no-cache-dir flask redis requests pydantic
-
-# Expose the application port
-EXPOSE 8000
-
-# Run the Flask application
-CMD ["python", "shorturl.py"]
-```
-
-### **2. Create a `docker-compose.yml` File**
-```yaml
-version: '3.8'
-
-services:
-  web:
-    build: .
-    container_name: shorturl_app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-    environment:
-      - REDIS_HOST=redis
-      - FLASK_ENV=production
-
-  redis:
-    image: redis:latest
-    container_name: redis_server
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    command: ["redis-server", "--appendonly", "yes"]
-
-volumes:
-  redis_data:
-    driver: local
-```
-
-### **3. Build and Run the Container**
+## 🐳 Running the Container
+### **1. Build and Run Using Docker Compose**
 ```sh
 docker-compose up --build -d
 ```
 Now both Flask and Redis are running inside Docker.
 
-### **4. Verify Everything is Working**
+### **2. Verify Everything is Working**
 Check running containers:
 ```sh
 docker ps
@@ -115,6 +59,16 @@ PING
 It should return:
 ```
 PONG
+```
+
+### **3. Stopping and Removing Containers**
+To stop all containers:
+```sh
+docker-compose down
+```
+To remove all Redis data:
+```sh
+docker volume rm redis_data
 ```
 
 ## 🐍 Running as an Executable with PyInstaller
@@ -167,16 +121,6 @@ Response:
     "Short code": "abc123",
     "Visits": 1
 }
-```
-
-## 🛑 Stopping and Removing Containers
-To stop all containers:
-```sh
-docker-compose down
-```
-To remove all Redis data:
-```sh
-docker volume rm redis_data
 ```
 
 ## 🤝 Contributing
